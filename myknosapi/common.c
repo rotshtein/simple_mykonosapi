@@ -16,6 +16,9 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include "common.h" 
+#include "fpga.h"
+
+
 /*
 #include "spi.h"
 #include "fpga_axi.h"
@@ -24,10 +27,10 @@
 */
 
 static uint8_t _writeBitPolarity = 1;
-static uint8_t _longInstructionWord = 1;
+static uint8_t _longInstructionWord = 0;
 static uint8_t _chipSelectIndex = 0;
 
-ADI_LOGLEVEL CMB_LOGLEVEL = ADIHAL_LOG_NONE;
+ADI_LOGLEVEL CMB_LOGLEVEL = ADIHAL_LOG_ALL;
 
 commonErr_t CMB_closeHardware(void)
 {
@@ -42,6 +45,12 @@ commonErr_t CMB_setGPIO(uint32_t GPIO)
     return(COMMONERR_OK);
 }
 
+/* 
+	spiChipSelectIndex = 0x01 - reset transiver
+						 0x02 - reset clocks
+						 0x03 - both
+*/
+
 commonErr_t CMB_hardReset(uint8_t spiChipSelectIndex)
 {
     uint32_t readData = 0;
@@ -53,14 +62,14 @@ commonErr_t CMB_hardReset(uint8_t spiChipSelectIndex)
         switch(spiChipSelectIndex)
         {
             case 1:
-                devResetBit = 0x10000;
+                devResetBit = ~1;
                 break;
             case 2:
-                devResetBit = 0x20000;
+                devResetBit = ~2;
                 break;
 
             default:
-                devResetBit = 0x40000;
+                devResetBit = ~3;
                 break;
         }
 
@@ -69,10 +78,10 @@ commonErr_t CMB_hardReset(uint8_t spiChipSelectIndex)
         /* toggle FPGA reg bit that goes out to FMC reset pin. FPGA reg
          * is active high, but signal to pins is active low.
          */
-        error = CMB_regRead(0x14, &readData);
-        error |= CMB_regWrite(0x14, (readData | devResetBit));
+        error = CMB_regRead(0x10, &readData);
+        error |= CMB_regWrite(0x10, (readData | devResetBit));
         error |= CMB_wait_ms(1);
-        error |= CMB_regWrite(0x14, (readData & ~devResetBit));
+        error |= CMB_regWrite(0x10, (readData & ~devResetBit));
 
         if(error)
         {
@@ -302,7 +311,6 @@ commonErr_t CMB_SPIReadByte(spiSettings_t *spiSettings, uint16_t addr, uint8_t *
         retval = HAL_spiRead(txbuf, 2, &data);
         if (retval < 0)
         {
-            printf("Error writing SPI");
             return(COMMONERR_FAILED);
         }
         else
@@ -488,7 +496,8 @@ commonErr_t CMB_regRead(uint32_t offset, uint32_t *data)
     if(CMB_LOGLEVEL & ADIHAL_LOG_AXI_REG)
     {
         HAL_writeToLogFile("FPGA Register Read: OFFSET_ADDR:0x%08X, READ_DATA:0x%08X\n", offset, *data);
-    }  
+    }
+  
     if (error != 0)
     {
         return (COMMONERR_FAILED);

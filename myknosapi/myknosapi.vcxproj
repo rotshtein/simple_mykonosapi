@@ -35,39 +35,47 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{9ebb7335-018f-4a9c-a9dd-d9fa28cd4a4a}</ProjectGuid>
+    <ProjectGuid>{33d34bca-b458-44b3-a12b-7add44d2b747}</ProjectGuid>
     <Keyword>Linux</Keyword>
-    <RootNamespace>myconosapi</RootNamespace>
+    <RootNamespace>myknosapi</RootNamespace>
     <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
     <ApplicationType>Linux</ApplicationType>
     <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
     <TargetLinuxPlatform>Generic</TargetLinuxPlatform>
-    <LinuxProjectType>{D51BCBC9-82E9-4017-911E-C93873C4EA2B}</LinuxProjectType>
+    <LinuxProjectType>{FC1A4D80-50E9-41DA-9192-61C0DBAA00D2}</LinuxProjectType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
+    <ConfigurationType>Application</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
+    <ConfigurationType>Application</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
+    <ConfigurationType>Makefile</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
+    <ConfigurationType>Makefile</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
+    <ConfigurationType>Makefile</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
+    <ConfigurationType>Makefile</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
+    <ConfigurationType>Makefile</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
+    <ConfigurationType>Makefile</ConfigurationType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
@@ -75,9 +83,30 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
+    <ClCompile Include="common.c" />
+    <ClCompile Include="fpga.c" />
+    <ClCompile Include="HAL.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="mykonos.c" />
+    <ClCompile Include="mykonosapi.c" />
+    <ClCompile Include="mykonosMmap.c" />
+    <ClCompile Include="mykonos_gpio.c" />
+    <ClCompile Include="mykonos_user.c" />
+    <ClCompile Include="spi.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="common.h" />
+    <ClInclude Include="fpga.h" />
+    <ClInclude Include="HAL.h" />
+    <ClInclude Include="mykonos.h" />
+    <ClInclude Include="mykonos_gpio.h" />
+    <ClInclude Include="mykonos_macros.h" />
+    <ClInclude Include="mykonos_user.h" />
+    <ClInclude Include="mykonos_version.h" />
+    <ClInclude Include="myk_init.h" />
+    <ClInclude Include="spi.h" />
+    <ClInclude Include="t_mykonos.h" />
+    <ClInclude Include="t_mykonos_gpio.h" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

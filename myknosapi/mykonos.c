@@ -614,7 +614,7 @@ mykonosErr_t MYKONOS_initialize(mykonosDevice_t *device)
     mykonosErr_t retVal = MYKONOS_ERR_OK;
 
 #if (MYKONOS_VERBOSE == 1)
-    CMB_writeToLog(ADIHAL_LOG_MESSAGE, device->spiSettings->chipSelectIndex, MYKONOS_ERR_OK, "MYKONOS_initialize()\n");
+   // CMB_writeToLog(ADIHAL_LOG_MESSAGE, device->spiSettings->chipSelectIndex, MYKONOS_ERR_OK, "MYKONOS_initialize()\n");
 #endif
 
     retVal = MYKONOS_verifyDeviceDataStructure(device);
